@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import TransactionModal from '../components/TransactionModal';
+import toast from 'react-hot-toast';
 
 export default function TransactionPage() {
   const { user } = useAuth();
@@ -21,7 +22,7 @@ export default function TransactionPage() {
         const data = await res.json();
         setTransactions(data);
       } catch (err) {
-        console.error('Feil ved henting av transaksjoner:', err);
+        toast.error('Feil ved henting av transaksjoner');
       } finally {
         setLoading(false);
       }
@@ -46,8 +47,9 @@ export default function TransactionPage() {
     if (res.ok) {
       const newTx = await res.json();
       setTransactions((prev) => [...prev, newTx]);
+      toast.success('Transaksjon lagret');
     } else {
-      alert('Feil ved lagring av transaksjon');
+      toast.error('Feil ved lagring av transaksjon');
     }
   };
 
@@ -59,15 +61,14 @@ export default function TransactionPage() {
 
     const res = await fetch(`http://localhost:8000/api/transactions/${id}`, {
       method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     if (res.ok) {
       setTransactions((prev) => prev.filter((tx) => tx.id !== id));
+      toast.success('Transaksjon slettet');
     } else {
-      alert('Kunne ikke slette transaksjonen');
+      toast.error('Kunne ikke slette transaksjonen');
     }
   };
 
@@ -90,8 +91,9 @@ export default function TransactionPage() {
         prev.map((tx) => (tx.id === data.id ? data : tx))
       );
       setEditingTx(null);
+      toast.success('Transaksjon oppdatert');
     } else {
-      alert('Kunne ikke oppdatere transaksjon');
+      toast.error('Kunne ikke oppdatere transaksjon');
     }
   };
 
