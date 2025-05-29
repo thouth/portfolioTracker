@@ -2,7 +2,10 @@ import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RequireAuth from './components/RequireAuth';
-import Dashboard from './pages/Dashboard';
+
+function Dashboard() {
+  return <div className="p-4">Velkommen til porteføljen din!</div>;
+}
 
 function App() {
   return (
