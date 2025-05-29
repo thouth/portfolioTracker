@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
+import TransactionPage from './pages/TransactionPage';
 import { AuthProvider } from './context/AuthContext';
 import RequireAuth from './components/RequireAuth';
 
@@ -14,6 +15,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/" element={<RequireAuth><Dashboard /></RequireAuth>} />
+            <Route path="/transactions" element={<RequireAuth><TransactionPage /></RequireAuth>} />
           </Routes>
         </Router>
       </div>
