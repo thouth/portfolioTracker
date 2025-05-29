@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.routes import protected
+app.include_router(protected.router)
 
 app = FastAPI()
 
