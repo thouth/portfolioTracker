@@ -7,6 +7,8 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import TransactionPage from './pages/TransactionPage';
+import HoldingsPage from './pages/HoldingsPage';
+import StockDetail from './pages/StockDetail';
 
 export default function App() {
   return (
@@ -41,6 +43,22 @@ export default function App() {
               element={
                 <RequireAuth>
                   <TransactionPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/holdings"
+              element={
+                <RequireAuth>
+                  <HoldingsPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/holdings/:ticker"
+              element={
+                <RequireAuth>
+                  <StockDetail />
                 </RequireAuth>
               }
             />
