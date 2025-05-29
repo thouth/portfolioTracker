@@ -1,20 +1,20 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import protected  # Beskyttet rute
+from app.routes import protected, transactions
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # Last .env-filen
+load_dotenv()
 
 app = FastAPI()
 
-# Tillatte domener – legg til ditt deploy-domene her
+# Tillatte domener for CORS
 origins = [
-    "http://localhost:5173",           # Vite dev server
-    "https://dittdomene.vercel.app",   # Sett inn ditt prod-domene
+    "http://localhost:5173",            # Vite dev server
+    "https://dittdomene.vercel.app",    # Sett inn ditt produksjonsdomene
 ]
 
-# Aktiver CORS
+# CORS Middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -23,10 +23,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Ruter
+# Inkluder API-ruter
 app.include_router(protected.router)
+app.include_router(transactions.router)
 
-# Helse-sjekk (valgfritt)
+# Helse-sjekk endepunkt
 @app.get("/api/health")
 def health_check():
     return {"status": "ok"}
