@@ -7,6 +7,7 @@ export default function TransactionPage() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [editingTx, setEditingTx] = useState(null);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -50,6 +51,50 @@ export default function TransactionPage() {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (!confirm('Er du sikker på at du vil slette denne transaksjonen?')) return;
+
+    const { data: sessionData } = await user?.getSession?.();
+    const token = sessionData?.session?.access_token;
+
+    const res = await fetch(`http://localhost:8000/api/transactions/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.ok) {
+      setTransactions((prev) => prev.filter((tx) => tx.id !== id));
+    } else {
+      alert('Kunne ikke slette transaksjonen');
+    }
+  };
+
+  const handleUpdate = async (updatedTx) => {
+    const { data: sessionData } = await user?.getSession?.();
+    const token = sessionData?.session?.access_token;
+
+    const res = await fetch(`http://localhost:8000/api/transactions/${updatedTx.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedTx),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      setTransactions((prev) =>
+        prev.map((tx) => (tx.id === data.id ? data : tx))
+      );
+      setEditingTx(null);
+    } else {
+      alert('Kunne ikke oppdatere transaksjon');
+    }
+  };
+
   return (
     <div className="p-6 text-white min-h-screen bg-gray-900">
       <div className="flex justify-between items-center mb-4">
@@ -74,6 +119,7 @@ export default function TransactionPage() {
               <th className="p-3 text-right">Antall</th>
               <th className="p-3 text-right">Pris</th>
               <th className="p-3 text-right">Total</th>
+              <th className="p-3 text-right">Handlinger</th>
             </tr>
           </thead>
           <tbody>
@@ -85,6 +131,20 @@ export default function TransactionPage() {
                 <td className="p-3 text-right">{tx.shares}</td>
                 <td className="p-3 text-right">${tx.price.toFixed(2)}</td>
                 <td className="p-3 text-right">${(tx.price * tx.shares).toFixed(2)}</td>
+                <td className="p-3 text-right space-x-2">
+                  <button
+                    onClick={() => setEditingTx(tx)}
+                    className="text-yellow-400 hover:underline"
+                  >
+                    Rediger
+                  </button>
+                  <button
+                    onClick={() => handleDelete(tx.id)}
+                    className="text-red-400 hover:underline"
+                  >
+                    Slett
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -95,6 +155,12 @@ export default function TransactionPage() {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onSave={handleSave}
+      />
+      <TransactionModal
+        isOpen={!!editingTx}
+        onClose={() => setEditingTx(null)}
+        onSave={handleUpdate}
+        transaction={editingTx}
       />
     </div>
   );
