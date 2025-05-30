@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import TransactionPage from './pages/TransactionPage';
 import HoldingsPage from './pages/HoldingsPage';
 import StockDetail from './pages/StockDetail';
+import CashPage from './pages/CashPage';
 
 export default function App() {
   return (
@@ -59,6 +60,14 @@ export default function App() {
               element={
                 <RequireAuth>
                   <StockDetail />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/cash"
+              element={
+                <RequireAuth>
+                  <CashPage />
                 </RequireAuth>
               }
             />
