@@ -18,6 +18,12 @@ Integrasjon med **Finnhub** for sanntids markedsdata.
 ---
 
 ## 📦 Kom i gang lokalt
+Kjør først setup-scriptet som konfigurerer prosjektet:
+
+```bash
+bash scripts/setup.sh
+```
+
 
 ### Backend
 ```bash
