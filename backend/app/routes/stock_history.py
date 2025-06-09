@@ -1,6 +1,6 @@
 # app/routes/stock_history.py
 from fastapi import APIRouter, Depends, HTTPException
-from app.auth import verify_token
+from app.dependencies import get_current_user
 import os
 from datetime import datetime, timedelta
 import httpx
@@ -8,7 +8,7 @@ import httpx
 router = APIRouter()
 
 @router.get("/api/stock-history/{ticker}")
-async def get_stock_history(ticker: str, user=Depends(verify_token)):
+async def get_stock_history(ticker: str, user_id: str = Depends(get_current_user)):
     API_KEY = os.getenv("FINNHUB_API_KEY")
     if not API_KEY:
         raise HTTPException(status_code=500, detail="Finnhub API-nøkkel mangler.")
