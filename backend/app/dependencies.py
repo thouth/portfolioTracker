@@ -1,6 +1,7 @@
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
+from supabase import create_client, Client
 import os
 
 JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET")
@@ -17,3 +18,11 @@ def get_current_user(token: HTTPAuthorizationCredentials = Depends(auth_scheme))
         return user_id
     except JWTError:
         raise HTTPException(status_code=401, detail="Ugyldig token")
+
+
+def get_supabase_client() -> Client:
+    url = os.getenv("SUPABASE_URL")
+    key = os.getenv("SUPABASE_KEY")
+    if not url or not key:
+        raise HTTPException(status_code=500, detail="Supabase config missing")
+    return create_client(url, key)

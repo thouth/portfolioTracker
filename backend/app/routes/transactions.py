@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.deps import get_current_user
+from app.dependencies import get_current_user
 from app.models import TransactionCreate, Transaction
 from typing import List
 import os

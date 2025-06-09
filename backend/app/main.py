@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import protected, transactions, holdings, stock_history, portfolio, cash
+from app.routes import protected, transactions, holdings, stock_history, portfolio
 import os
 from dotenv import load_dotenv
 
@@ -29,7 +29,6 @@ app.include_router(transactions.router)
 app.include_router(holdings.router)
 app.include_router(stock_history.router)
 app.include_router(portfolio.router)
-app.include_router(cash.router)
 
 # Helse-sjekk
 @app.get("/api/health")

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.deps import get_current_user
+from app.dependencies import get_current_user
 import os, psycopg2, psycopg2.extras
 import finnhub
 from collections import defaultdict
