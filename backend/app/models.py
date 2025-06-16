@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from typing import Optional
 from datetime import datetime
 
@@ -8,6 +8,10 @@ class TransactionCreate(BaseModel):
     shares: float
     price: float
     trade_date: Optional[datetime] = None
+
+    @validator("trade_type")
+    def uppercase_trade_type(cls, v: str) -> str:
+        return v.upper()
 
 class Transaction(TransactionCreate):
     id: str

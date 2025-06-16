@@ -12,7 +12,8 @@ export default function TransactionModal({ isOpen, onClose, onSave, transaction 
   );
 
   useEffect(() => {
-    if (transaction) setForm(transaction);
+    if (transaction)
+      setForm({ ...transaction, trade_type: transaction.trade_type.toLowerCase() });
   }, [transaction]);
 
   const handleChange = (e) => {
@@ -21,7 +22,7 @@ export default function TransactionModal({ isOpen, onClose, onSave, transaction 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(form);
+    onSave({ ...form, trade_type: form.trade_type.toUpperCase() });
     onClose();
   };
 
