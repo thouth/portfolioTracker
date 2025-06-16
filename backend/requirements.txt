@@ -1,3 +1,9 @@
 fastapi
 uvicorn
 python-dotenv
+
+psycopg2-binary
+httpx
+supabase
+python-jose
+finnhub-python
