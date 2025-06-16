@@ -5,8 +5,8 @@ from app.dependencies import get_current_user, get_supabase_client
 router = APIRouter(prefix="/api", tags=["Portfolio"])
 
 @router.get("/portfolio-overview")
-async def portfolio_overview(user=Depends(get_current_user), supabase: Client = Depends(get_supabase_client)):
-    user_id = user['sub']
+async def portfolio_overview(user: str = Depends(get_current_user), supabase: Client = Depends(get_supabase_client)):
+    user_id = user
 
     tx_res = supabase.from_('transactions').select("*").eq("user_id", user_id).execute()
     transactions = tx_res.data or []
