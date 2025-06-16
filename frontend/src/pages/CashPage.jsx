@@ -1,6 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { supabase } from '../lib/supabaseClient';
 
 export default function CashPage() {
   const { user } = useAuth();
@@ -9,7 +10,7 @@ export default function CashPage() {
 
   useEffect(() => {
     const fetchCash = async () => {
-      const { data: sessionData } = await user?.getSession?.();
+      const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData?.session?.access_token;
 
       const res = await fetch('http://localhost:8000/api/cash', {
@@ -25,7 +26,7 @@ export default function CashPage() {
   }, [user]);
 
   const handleSave = async () => {
-    const { data: sessionData } = await user?.getSession?.();
+    const { data: sessionData } = await supabase.auth.getSession();
     const token = sessionData?.session?.access_token;
 
     const res = await fetch('http://localhost:8000/api/cash', {

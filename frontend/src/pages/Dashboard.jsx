@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Pie } from 'react-chartjs-2';
+import { supabase } from '../lib/supabaseClient';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -17,7 +18,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchOverview = async () => {
-      const { data: sessionData } = await user?.getSession?.();
+      const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData?.session?.access_token;
 
       try {

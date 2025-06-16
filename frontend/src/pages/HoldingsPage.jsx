@@ -1,6 +1,7 @@
 // HoldingsPage.jsx
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
 export default function HoldingsPage() {
@@ -10,7 +11,7 @@ export default function HoldingsPage() {
 
   useEffect(() => {
     const fetchHoldings = async () => {
-      const { data: sessionData } = await user?.getSession?.();
+      const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData?.session?.access_token;
 
       const res = await fetch('http://localhost:8000/api/holdings', {
