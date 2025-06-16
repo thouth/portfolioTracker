@@ -22,7 +22,7 @@ export default function Dashboard() {
       const token = sessionData?.session?.access_token;
 
       try {
-        const res = await fetch('http://localhost:8000/api/portfolio-overview', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/portfolio-overview`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

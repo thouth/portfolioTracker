@@ -17,7 +17,7 @@ export default function TransactionPage() {
       const token = sessionData?.session?.access_token;
 
       try {
-        const res = await fetch('http://localhost:8000/api/transactions', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -36,7 +36,7 @@ export default function TransactionPage() {
     const { data: sessionData } = await supabase.auth.getSession();
     const token = sessionData?.session?.access_token;
 
-    const res = await fetch('http://localhost:8000/api/transactions', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export default function TransactionPage() {
     const { data: sessionData } = await supabase.auth.getSession();
     const token = sessionData?.session?.access_token;
 
-    const res = await fetch(`http://localhost:8000/api/transactions/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -77,7 +77,7 @@ export default function TransactionPage() {
     const { data: sessionData } = await supabase.auth.getSession();
     const token = sessionData?.session?.access_token;
 
-    const res = await fetch(`http://localhost:8000/api/transactions/${updatedTx.id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions/${updatedTx.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
