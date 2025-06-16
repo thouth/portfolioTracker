@@ -14,7 +14,7 @@ export default function HoldingsPage() {
       const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData?.session?.access_token;
 
-      const res = await fetch('http://localhost:8000/api/holdings', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/holdings`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

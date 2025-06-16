@@ -48,7 +48,10 @@ npm install
 
 ###Konfigurer .env.local
 cp .env.local.example .env.local
-# Rediger filen og legg inn dine egne verdier
+# Rediger filen og legg inn dine egne verdier, f.eks.:
+# VITE_SUPABASE_URL=...
+# VITE_SUPABASE_ANON_KEY=...
+# VITE_API_URL=http://localhost:8000
 
 ###Start frontend:
 npm run dev

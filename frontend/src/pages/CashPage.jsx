@@ -13,7 +13,7 @@ export default function CashPage() {
       const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData?.session?.access_token;
 
-      const res = await fetch('http://localhost:8000/api/cash', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cash`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -29,7 +29,7 @@ export default function CashPage() {
     const { data: sessionData } = await supabase.auth.getSession();
     const token = sessionData?.session?.access_token;
 
-    const res = await fetch('http://localhost:8000/api/cash', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cash`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

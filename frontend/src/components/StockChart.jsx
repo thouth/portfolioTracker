@@ -17,7 +17,7 @@ export default function StockChart({ ticker }) {
 
   useEffect(() => {
     const fetchChart = async () => {
-      const res = await fetch(`http://localhost:8000/api/stock-history/${ticker}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/stock-history/${ticker}`);
       const data = await res.json();
 
       const labels = data.map(item => item.date);

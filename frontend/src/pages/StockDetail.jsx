@@ -16,7 +16,7 @@ export default function StockDetail() {
       const token = sessionData?.session?.access_token;
 
       // Fetch all holdings and find the one matching this ticker
-      const resHoldings = await fetch('http://localhost:8000/api/holdings', {
+      const resHoldings = await fetch(`${import.meta.env.VITE_API_URL}/api/holdings`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const holdingsData = await resHoldings.json();
@@ -26,7 +26,7 @@ export default function StockDetail() {
         ) || null;
       setStock(match);
 
-      const resTx = await fetch('http://localhost:8000/api/transactions', {
+      const resTx = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const allTx = await resTx.json();
