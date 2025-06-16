@@ -42,16 +42,17 @@ FINNHUB_API_KEY=...
 ### Start backend:
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-###Frontend
+### Frontend
 cd frontend
 npm install
 
-###Konfigurer .env.local
+### Konfigurer .env.local
 cp .env.local.example .env.local
 # Rediger filen og legg inn dine egne verdier, f.eks.:
 # VITE_SUPABASE_URL=...
 # VITE_SUPABASE_ANON_KEY=...
 # VITE_API_URL=http://localhost:8000
 
-###Start frontend:
+### Start frontend:
 npm run dev
+```
