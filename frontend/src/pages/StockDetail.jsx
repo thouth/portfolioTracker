@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
 import StockChart from '../components/StockChart';
+import { supabase } from '../lib/supabaseClient';
 
 export default function StockDetail() {
   const { ticker } = useParams();
@@ -11,7 +12,7 @@ export default function StockDetail() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: sessionData } = await user?.getSession?.();
+      const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData?.session?.access_token;
 
       const resStock = await fetch(`http://localhost:8000/api/holdings/${ticker}`, {

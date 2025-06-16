@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import TransactionModal from '../components/TransactionModal';
 import toast from 'react-hot-toast';
+import { supabase } from '../lib/supabaseClient';
 
 export default function TransactionPage() {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ export default function TransactionPage() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const { data: sessionData } = await user?.getSession?.();
+      const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData?.session?.access_token;
 
       try {
@@ -32,7 +33,7 @@ export default function TransactionPage() {
   }, [user]);
 
   const handleSave = async (tx) => {
-    const { data: sessionData } = await user?.getSession?.();
+    const { data: sessionData } = await supabase.auth.getSession();
     const token = sessionData?.session?.access_token;
 
     const res = await fetch('http://localhost:8000/api/transactions', {
@@ -56,7 +57,7 @@ export default function TransactionPage() {
   const handleDelete = async (id) => {
     if (!confirm('Er du sikker på at du vil slette denne transaksjonen?')) return;
 
-    const { data: sessionData } = await user?.getSession?.();
+    const { data: sessionData } = await supabase.auth.getSession();
     const token = sessionData?.session?.access_token;
 
     const res = await fetch(`http://localhost:8000/api/transactions/${id}`, {
@@ -73,7 +74,7 @@ export default function TransactionPage() {
   };
 
   const handleUpdate = async (updatedTx) => {
-    const { data: sessionData } = await user?.getSession?.();
+    const { data: sessionData } = await supabase.auth.getSession();
     const token = sessionData?.session?.access_token;
 
     const res = await fetch(`http://localhost:8000/api/transactions/${updatedTx.id}`, {
