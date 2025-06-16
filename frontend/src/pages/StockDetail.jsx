@@ -15,11 +15,16 @@ export default function StockDetail() {
       const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData?.session?.access_token;
 
-      const resStock = await fetch(`http://localhost:8000/api/holdings/${ticker}`, {
+      // Fetch all holdings and find the one matching this ticker
+      const resHoldings = await fetch('http://localhost:8000/api/holdings', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const stockData = await resStock.json();
-      setStock(stockData);
+      const holdingsData = await resHoldings.json();
+      const match =
+        holdingsData?.holdings?.find(
+          (h) => h.ticker === ticker.toUpperCase()
+        ) || null;
+      setStock(match);
 
       const resTx = await fetch('http://localhost:8000/api/transactions', {
         headers: { Authorization: `Bearer ${token}` },
@@ -39,7 +44,7 @@ export default function StockDetail() {
 
       <div className="grid grid-cols-2 gap-6">
         <div>
-          <p><strong>Antall:</strong> {stock.total_shares}</p>
+          <p><strong>Antall:</strong> {stock.shares}</p>
           <p><strong>Snittpris:</strong> ${stock.avg_cost.toFixed(2)}</p>
           <p><strong>Nåværende pris:</strong> ${stock.current_price.toFixed(2)}</p>
         </div>
@@ -67,11 +72,11 @@ export default function StockDetail() {
           <tbody>
             {transactions.map((tx) => (
               <tr key={tx.id} className="hover:bg-gray-700">
-                <td className="p-3">{new Date(tx.date).toLocaleDateString()}</td>
-                <td className="p-3 capitalize">{tx.type}</td>
-                <td className="p-3 text-right">{tx.quantity}</td>
+                <td className="p-3">{new Date(tx.trade_date).toLocaleDateString()}</td>
+                <td className="p-3 capitalize">{tx.trade_type}</td>
+                <td className="p-3 text-right">{tx.shares}</td>
                 <td className="p-3 text-right">${tx.price.toFixed(2)}</td>
-                <td className="p-3 text-right">${(tx.quantity * tx.price).toFixed(2)}</td>
+                <td className="p-3 text-right">${(tx.shares * tx.price).toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
